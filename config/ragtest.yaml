@@ -1,0 +1,119 @@
+# configs for MyRAG
+
+# embeddding_model_path
+embedding_model:
+  root: "/data/model/"
+  base: "bge-m3" # finetuned for category selection
+  reranker : "bge-reranker-v2-m3"
+  api_url: http://182.44.6.59:8102/v1
+  api_key: AkmZUkuZhR5aarxtU3wItwaCToIfjnIzkqnSE6zsSJeGtEgs5hcb1QrI
+  model_name: bge-m3
+
+
+
+embedding_api_url: "http://182.44.10.89:31000/v1/embeddings"
+
+# 大模型配置
+llm:
+  api_base: http://182.43.102.111:8900/v1
+  api_key: 5F5D63CA-477A-4B65-9D8C-336D43CB1D53
+  model_name: qwen72chat_25
+  temperature: 0.01
+  max_tokens: 30000
+  model_kwargs:
+    seed: 1000
+
+
+# pg port config
+pg_conn_args: {
+      "DB_HOST" : '182.44.1.89',
+      "DB_PORT" : "5432",
+      "DB_USERNAME" : 'admin',
+      "DB_PASSWORD" : 'admin12348765',
+      "DB_DATABASE" : 'myba_db_new',
+      "TABLE_NAME" : 'kb_chunk_version_all'
+      }
+
+# milvus port config
+milvus_conn_args: {
+    # "host": "10.0.0.38",
+    "host": "182.44.10.89",
+    "port": "31431",
+    "user": "root",
+    "password": "Milvus",
+}
+milvus_db: 'myba_query'
+
+milvus_guard:
+  tbl: "guard"
+  index_params: {
+                    "metric_type": "L2", # L2 and COSINE allowed only
+                    "index_type": "IVF_FLAT",
+                    "params": {"nlist": 16},
+                }
+  
+milvus_guard_ww:  
+  tbl: "guard_ww"
+  index_params: {
+                    "metric_type": "L2", # L2 and COSINE allowed only
+                    "index_type": "IVF_FLAT",
+                    "params": {"nlist": 16},
+                }
+
+milvus_prodname:
+  tbl: "prod_name_test"
+  index_params: {
+                    "metric_type": "L2", # L2 and COSINE allowed only
+                    "index_type": "IVF_FLAT",
+                    "params": {"nlist": 1},
+                }
+
+
+milvus_compname:
+  tbl: "comp_name"
+  index_params: {
+                    "metric_type": "L2", # L2 and COSINE allowed only
+                    "index_type": "IVF_FLAT",
+                    "params": {"nlist": 16},
+                }
+
+
+
+
+
+route_retrive:
+  k: 5
+  threshold: 0.1
+feel_retrive:
+  k: 1
+  threshold: 0.01
+prodname_retrive:
+  k: 100
+  # threshold: 0.5 # empirical value
+  threshold: 0.7 # empirical value
+compname_retrive:
+  k: 5
+  threshold: 0.7 # empirical value
+# postgresql db
+db_url: "postgresql://admin:admin12348765@182.44.1.89:5432/myba_db_new"
+# local cache
+db_cache: "data/myba_db_dev/"
+
+# prodname_tell stop_words
+stop_words:
+  [
+    "的",
+    "是",
+    "什么",
+    "有",
+    "可以",
+    "吗",
+    "呢",
+    "呀",
+    "嘛",
+    "哪些",
+    "哪",
+    "呢",
+    "呀",
+    "嘛",
+  ]
